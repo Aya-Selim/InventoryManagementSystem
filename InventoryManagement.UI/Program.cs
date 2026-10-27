@@ -28,6 +28,9 @@ namespace InventoryManagement.UI
                         .ConnectionStrings["InventoryDb"]
                         .ConnectionString;
 
+
+
+                // composite root :
                 var userRepository = new UserRepository(connectionString);
                 var passwordHasher = new Pbkdf2PasswordHasher();
 
