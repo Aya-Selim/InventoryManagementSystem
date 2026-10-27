@@ -112,7 +112,7 @@ namespace InventoryManagement.UI
             {
                 Dock = DockStyle.Top,
                 ColumnCount = 1,
-                RowCount = 3,
+                RowCount = 4,
                 AutoSize = true,
                 AutoSizeMode = AutoSizeMode.GrowAndShrink
             };
@@ -126,6 +126,8 @@ namespace InventoryManagement.UI
             contentLayout.RowStyles.Add(
                 new RowStyle(SizeType.Absolute, 55F));
 
+            contentLayout.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 230F));
             contentLayout.RowStyles.Add(
                 new RowStyle(SizeType.Absolute, 230F));
 
@@ -214,10 +216,78 @@ namespace InventoryManagement.UI
             cardLayout.Controls.Add(openProductsButton, 0, 2);
 
             productsCard.Controls.Add(cardLayout);
+            // Low Stock Report card
+            var reportCard = new Panel
+            {
+                Dock = DockStyle.Fill,
+                BackColor = Color.White,
+                Padding = new Padding(24),
+                Margin = new Padding(0, 8, 0, 8)
+            };
+
+            var reportCardLayout = new TableLayoutPanel
+            {
+                Dock = DockStyle.Fill,
+                ColumnCount = 1,
+                RowCount = 3
+            };
+
+            reportCardLayout.ColumnStyles.Add(
+                new ColumnStyle(SizeType.Percent, 100F));
+
+            reportCardLayout.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 42F));
+
+            reportCardLayout.RowStyles.Add(
+                new RowStyle(SizeType.Percent, 100F));
+
+            reportCardLayout.RowStyles.Add(
+                new RowStyle(SizeType.Absolute, 48F));
+
+            var reportTitle = new Label
+            {
+                Text = "Low Stock Report",
+                Dock = DockStyle.Fill,
+                Font = new Font("Segoe UI", 15F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(23, 43, 77),
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            var reportDescription = new Label
+            {
+                Text = "View products that have reached the low-stock threshold.",
+                Dock = DockStyle.Fill,
+                ForeColor = Color.FromArgb(86, 101, 122),
+                TextAlign = ContentAlignment.MiddleLeft
+            };
+
+            var openReportButton = new Button
+            {
+                Text = "Open Report  →",
+                Dock = DockStyle.Right,
+                Width = 190,
+                Height = 42,
+                FlatStyle = FlatStyle.Flat,
+                BackColor = primaryColor,
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                Cursor = Cursors.Hand,
+                UseVisualStyleBackColor = false
+            };
+
+            openReportButton.FlatAppearance.BorderSize = 0;
+            openReportButton.Click += btnLowStockReport_Click;
+
+            reportCardLayout.Controls.Add(reportTitle, 0, 0);
+            reportCardLayout.Controls.Add(reportDescription, 0, 1);
+            reportCardLayout.Controls.Add(openReportButton, 0, 2);
+
+            reportCard.Controls.Add(reportCardLayout);
 
             contentLayout.Controls.Add(dashboardTitle, 0, 0);
             contentLayout.Controls.Add(welcomeText, 0, 1);
             contentLayout.Controls.Add(productsCard, 0, 2);
+            contentLayout.Controls.Add(reportCard, 0, 3);
 
             content.Controls.Add(contentLayout);
 
@@ -235,6 +305,17 @@ namespace InventoryManagement.UI
                 _currentUser))
             {
                 productsForm.ShowDialog(this);
+            }
+        }
+
+
+        private void btnLowStockReport_Click(object sender, EventArgs e)
+        {
+            using (var reportForm = new LowStockReportForm(
+                _productService,
+                _categoryService))
+            {
+                reportForm.ShowDialog(this);
             }
         }
     }
