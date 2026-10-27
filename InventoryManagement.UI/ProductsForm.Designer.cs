@@ -30,6 +30,7 @@ namespace InventoryManagement.UI
         /// </summary>
         private void InitializeComponent()
         {
+            Telerik.WinControls.UI.TableViewDefinition tableViewDefinition1 = new Telerik.WinControls.UI.TableViewDefinition();
             this.lblSearch = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.cmbStockFilter = new System.Windows.Forms.ComboBox();
@@ -39,7 +40,12 @@ namespace InventoryManagement.UI
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
+            this.radStatusStrip1 = new Telerik.WinControls.UI.RadStatusStrip();
+            this.radGridViewProducts = new Telerik.WinControls.UI.RadGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radStatusStrip1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radGridViewProducts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radGridViewProducts.MasterTemplate)).BeginInit();
             this.SuspendLayout();
             // 
             // lblSearch
@@ -126,11 +132,33 @@ namespace InventoryManagement.UI
             this.btnEdit.Text = "Edit Product";
             this.btnEdit.UseVisualStyleBackColor = true;
             // 
+            // radStatusStrip1
+            // 
+            this.radStatusStrip1.Location = new System.Drawing.Point(0, 415);
+            this.radStatusStrip1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.radStatusStrip1.Name = "radStatusStrip1";
+            this.radStatusStrip1.Size = new System.Drawing.Size(800, 35);
+            this.radStatusStrip1.TabIndex = 9;
+            // 
+            // radGridViewProducts
+            // 
+            this.radGridViewProducts.Location = new System.Drawing.Point(383, 187);
+            this.radGridViewProducts.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            // 
+            // 
+            // 
+            this.radGridViewProducts.MasterTemplate.ViewDefinition = tableViewDefinition1;
+            this.radGridViewProducts.Name = "radGridViewProducts";
+            this.radGridViewProducts.Size = new System.Drawing.Size(240, 150);
+            this.radGridViewProducts.TabIndex = 10;
+            // 
             // ProductsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.radGridViewProducts);
+            this.Controls.Add(this.radStatusStrip1);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnAdd);
@@ -143,6 +171,9 @@ namespace InventoryManagement.UI
             this.Name = "ProductsForm";
             this.Text = "ProductsForm";
             ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radStatusStrip1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radGridViewProducts.MasterTemplate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.radGridViewProducts)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,5 +195,7 @@ namespace InventoryManagement.UI
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnEdit;
+        private Telerik.WinControls.UI.RadStatusStrip radStatusStrip1;
+        private Telerik.WinControls.UI.RadGridView radGridViewProducts;
     }
 }

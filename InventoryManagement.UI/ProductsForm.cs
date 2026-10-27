@@ -4,6 +4,7 @@ using InventoryManagement.Service.Services;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Telerik.WinControls.UI;
 namespace InventoryManagement.UI
 {
     public partial class ProductsForm : Form
@@ -104,9 +105,7 @@ namespace InventoryManagement.UI
                     Convert.ToInt32(cmbCategory.SelectedValue);
 
                 if (selectedCategoryId != 0)
-                {
                     categoryId = selectedCategoryId;
-                }
             }
 
             bool? lowStockOnly = null;
@@ -117,13 +116,9 @@ namespace InventoryManagement.UI
                     cmbStockFilter.SelectedItem.ToString();
 
                 if (selectedStockFilter == "Low Stock")
-                {
                     lowStockOnly = true;
-                }
                 else if (selectedStockFilter == "In Stock")
-                {
                     lowStockOnly = false;
-                }
             }
 
             string productName = string.IsNullOrWhiteSpace(txtSearch.Text)
@@ -146,46 +141,52 @@ namespace InventoryManagement.UI
                 return;
             }
 
-            dgvProducts.AutoGenerateColumns = true;
-            dgvProducts.DataSource = null;
-            dgvProducts.DataSource = result.Data;
+            radGridViewProducts.AutoGenerateColumns = true;
+            radGridViewProducts.DataSource = null;
+            radGridViewProducts.DataSource = result.Data;
 
-            if (dgvProducts.Columns["IsDeleted"] != null)
-                dgvProducts.Columns["IsDeleted"].Visible = false;
+            radGridViewProducts.ReadOnly = true;
+            radGridViewProducts.AllowAddNewRow = false;
+            radGridViewProducts.AllowDeleteRow = false;
+            radGridViewProducts.AutoSizeColumnsMode =
+                Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill;
 
-            if (dgvProducts.Columns["CreatedBy"] != null)
-                dgvProducts.Columns["CreatedBy"].Visible = false;
+            // Enable Telerik built-in filtering
+            radGridViewProducts.EnableFiltering = true;
+            radGridViewProducts.ShowFilteringRow = true;
 
-            if (dgvProducts.Columns["UpdatedBy"] != null)
-                dgvProducts.Columns["UpdatedBy"].Visible = false;
+            string[] hiddenColumns =
+            {
+        "IsDeleted",
+        "CreatedBy",
+        "UpdatedBy"
+    };
 
+            foreach (string columnName in hiddenColumns)
+            {
+                var column = radGridViewProducts.Columns[columnName];
 
-            if (dgvProducts.Columns["Id"] != null)
-                dgvProducts.Columns["Id"].HeaderText = "Product ID";
+                if (column != null)
+                    column.IsVisible = false;
+            }
 
-            if (dgvProducts.Columns["Name"] != null)
-                dgvProducts.Columns["Name"].HeaderText = "Product Name";
+            SetGridHeader("Id", "Product ID");
+            SetGridHeader("Name", "Product Name");
+            SetGridHeader("Description", "Description");
+            SetGridHeader("Quantity", "Quantity in Stock");
+            SetGridHeader("Price", "Price");
+            SetGridHeader("SupplierName", "Supplier Name");
+            SetGridHeader("CategoryId", "Category ID");
+            SetGridHeader("CreatedAt", "Created At");
+            SetGridHeader("UpdatedAt", "Updated At");
+        }
 
-            if (dgvProducts.Columns["Description"] != null)
-                dgvProducts.Columns["Description"].HeaderText = "Description";
+        private void SetGridHeader(string columnName, string headerText)
+        {
+            var column = radGridViewProducts.Columns[columnName];
 
-            if (dgvProducts.Columns["Quantity"] != null)
-                dgvProducts.Columns["Quantity"].HeaderText = "Quantity in Stock";
-
-            if (dgvProducts.Columns["Price"] != null)
-                dgvProducts.Columns["Price"].HeaderText = "Price";
-
-            if (dgvProducts.Columns["SupplierName"] != null)
-                dgvProducts.Columns["SupplierName"].HeaderText = "Supplier Name";
-
-            if (dgvProducts.Columns["CategoryId"] != null)
-                dgvProducts.Columns["CategoryId"].HeaderText = "Category ID";
-
-            if (dgvProducts.Columns["CreatedAt"] != null)
-                dgvProducts.Columns["CreatedAt"].HeaderText = "Created At";
-
-            if (dgvProducts.Columns["UpdatedAt"] != null)
-                dgvProducts.Columns["UpdatedAt"].HeaderText = "Updated At";
+            if (column != null)
+                column.HeaderText = headerText;
         }
 
         //Events :
@@ -205,7 +206,7 @@ namespace InventoryManagement.UI
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
-            if (dgvProducts.CurrentRow == null)
+            if (radGridViewProducts.CurrentRow == null)
             {
                 MessageBox.Show(
                     "Please select a product to edit.",
@@ -216,7 +217,7 @@ namespace InventoryManagement.UI
                 return;
             }
 
-            var product = dgvProducts.CurrentRow.DataBoundItem as Product;
+            var product = radGridViewProducts.CurrentRow.DataBoundItem as Product;
 
             if (product == null)
                 return;
@@ -235,7 +236,7 @@ namespace InventoryManagement.UI
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            if (dgvProducts.CurrentRow == null)
+            if (radGridViewProducts.CurrentRow == null)
             {
                 MessageBox.Show(
                     "Please select a product to delete.",
@@ -246,7 +247,7 @@ namespace InventoryManagement.UI
                 return;
             }
 
-            var product = dgvProducts.CurrentRow.DataBoundItem as Product;
+            var product = radGridViewProducts.CurrentRow.DataBoundItem as Product;
 
             if (product == null)
                 return;
@@ -343,10 +344,11 @@ namespace InventoryManagement.UI
             filtersPanel.Controls.Add(cmbStockFilter);
 
             // Products grid
-            dgvProducts.Dock = DockStyle.Fill;
-            dgvProducts.Margin = new Padding(0, 5, 0, 10);
-            dgvProducts.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
+            radGridViewProducts.Dock = DockStyle.Fill;
+            radGridViewProducts.Margin = new Padding(0, 5, 0, 10);
+
+            radGridViewProducts.AutoSizeColumnsMode =
+                Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill;
 
             // Action buttons
             var buttonsPanel = new FlowLayoutPanel
@@ -370,7 +372,7 @@ namespace InventoryManagement.UI
             Controls.Clear();
 
             mainLayout.Controls.Add(filtersPanel, 0, 0);
-            mainLayout.Controls.Add(dgvProducts, 0, 1);
+            mainLayout.Controls.Add(radGridViewProducts, 0, 1);
             mainLayout.Controls.Add(buttonsPanel, 0, 2);
 
             Controls.Add(mainLayout);
