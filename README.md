@@ -94,3 +94,11 @@ The Low Stock Report displays active products with quantities at or below **5 un
 ---
 
 **Note:** Configure your own database connection string and install the required Telerik and Crystal Reports dependencies before running the application.
+
+## Demo
+
+Watch the application demo:
+
+[▶️ Watch Inventory Management System Demo](https://drive.google.com/file/d/1TLpJ4fyMVbc6Y14TSjmYLxj3STOzaVq2/view?usp=sharing)
+
+
